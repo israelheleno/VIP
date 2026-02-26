@@ -48,31 +48,30 @@
         .disclaimer strong { color: var(--gold); }
         .disclaimer span { display: block; margin-top: 10px; font-style: italic; }
 
+        /* AJUSTES PARA IMPRESSÃO */
         @media print {
-            @page { size: A4; margin: 10mm; }
+            @page { size: A4; margin: 8mm; }
             .admin-section, .btn-print, .btn-step, .remove-icon, .usage-controls { display: none !important; }
             body { background: white !important; color: black !important; padding: 0; margin: 0; }
-            .watermark { color: rgba(0, 0, 0, 0.2) !important; bottom: 5mm; right: 5mm; display: block !important; }
-            h1 { color: black !important; font-size: 16pt; margin-bottom: 8mm; }
-            #displayArea { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; width: 100%; }
-            .card { background: #fff !important; border: 1px solid #ddd !important; border-radius: 10px; padding: 8px; margin: 0; height: 48mm; overflow: hidden; box-sizing: border-box; }
-            .card-header { margin-bottom: 5px; }
-            .card-img { width: 50px; height: 32px; border: 1px solid #eee; }
+            .watermark { color: rgba(0, 0, 0, 0.4) !important; bottom: 5mm; right: 5mm; display: block !important; }
+            h1 { color: black !important; font-size: 14pt; margin-bottom: 6mm; }
+            #displayArea { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; width: 100%; }
+            .card { background: #fff !important; border: 1px solid #ccc !important; border-radius: 8px; padding: 6px; margin: 0; height: 46mm; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; }
+            .card-header { margin-bottom: 4px; gap: 6px; }
+            .card-img { width: 45px; height: 28px; border: 1px solid #ddd; }
             
-            /* FONTE DO PROGRAMA REDUZIDA NO PRINT */
-            .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 6pt; padding: 2px; }
-            
-            .card-title { color: black !important; font-size: 8pt !important; }
-            .cond-box { background: #f5f5f5 !important; border-left: 2px solid black; padding: 4px; }
-            .cond-text { font-size: 7.5pt; color: black !important; }
-            .adic-text { font-size: 7pt; color: #666 !important; }
+            .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 5.5pt; padding: 1px; margin-top: 2px; }
+            .card-title { color: black !important; font-size: 7.5pt !important; line-height: 1.1; }
+            .cond-box { background: #f9f9f9 !important; border-left: 2px solid black; padding: 3px; margin-bottom: 3px; }
+            .cond-text { font-size: 7pt; color: black !important; }
+            .adic-text { font-size: 6.5pt; color: #666 !important; }
             
             /* AJUSTE DOS VALORES DENTRO DA MOLDURA NO PRINT */
-            .counter-section { border-top: 1px solid #eee; padding-top: 4px; gap: 2px; display: flex; justify-content: space-around; width: 100%; }
-            .stat { flex: 1; }
-            .stat-val { font-size: 12pt !important; color: black !important; width: 100%; text-align: center; }
-            .stat-label { font-size: 6.5pt; display: block; }
-            .disclaimer { border-top: 1px solid #eee; color: #999 !important; font-size: 8pt; margin-top: 10mm; }
+            .counter-section { border-top: 0.5px solid #eee; padding-top: 3px; gap: 0; display: flex; justify-content: space-between; margin-top: auto; }
+            .stat { flex: 1; padding: 0 2px; }
+            .stat-val { font-size: 11pt !important; color: black !important; text-align: center; line-height: 1; }
+            .stat-label { font-size: 6pt; display: block; margin-top: 1px; color: #888; }
+            .disclaimer { border-top: 1px solid #eee; color: #999 !important; font-size: 7pt; margin-top: 5mm; padding: 10px; }
         }
     </style>
 </head>
@@ -87,20 +86,18 @@
     <button class="btn-print" id="btnPrint">📸 GERAR PRINT PARA ENVIO</button>
     
     <div class="disclaimer">
-        ⚠️ <strong>AVISO IMPORTANTE:</strong> As informações de benefícios, regras de acesso e metas de gastos exibidas neste rastreador são baseadas nas diretrizes vigentes em <strong>Fevereiro de 2026</strong>. 
-        <br><br>
-        Os bancos emissores e as bandeiras podem alterar essas regras a qualquer momento sem aviso prévio. 
-        <span>Consulte sempre o extrato de acessos nos apps oficiais (Visa Airport Companion, LoungeKey ou Priority Pass) antes de planejar sua visita à sala VIP.</span>
+        ⚠️ <strong>AVISO IMPORTANTE:</strong> Regras de <strong>Fevereiro de 2026</strong>. 
+        Os emissores podem alterar benefícios sem aviso. Consulte apps oficiais (VAC, LK ou PP).
     </div>
 </div>
 
 <script>
     const db = {
         amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Bradesco & Centurion", adic: "Cota ilimitada individual.", cond: "Sem meta de gastos." },
-        aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", adic: "Cota de 4 acessos por adicional.", cond: "Média R$ 1k/mês nos últimos 3 meses." },
-        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu Lounge", adic: "Adicionais com cota de 4 acessos PP.", cond: "4 acessos PP. Nu Lounge e MC GRU ilimitados." },
-        inter_prime: { name: "Inter Prime", img: "inter-black.png", total: 6, prog: "LoungeKey + Inter Lounge", adic: "Cota de 6 acessos individuais por adicional.", cond: "6 acessos LK. Inter Lounges ilimitados." },
-        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", adic: "Cota de 2 acessos por adicional.", cond: "Sem meta de gastos." },
+        aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", adic: "4 acessos por adicional.", cond: "Média R$ 1k/mês nos últimos 3 meses." },
+        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu Lounge", adic: "Adicionais com 4 acessos PP.", cond: "4 PP. Nu Lounge e MC GRU ilimitados." },
+        inter_prime: { name: "Inter Prime", img: "inter-black.png", total: 6, prog: "LoungeKey + Inter Lounge", adic: "6 acessos por adicional.", cond: "6 LK. Inter Lounges ilimitados." },
+        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", adic: "2 acessos por adicional.", cond: "Sem meta de gastos." },
         xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Visa Airport Companion", adic: "Compartilhados (Titular+Adic).", cond: "Gasto R$ 3k na fatura anterior." },
         c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, prog: "Dragon Pass", adic: "Compartilhados (Titular+Adic).", cond: "Sem meta de gastos." },
         sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, prog: "Visa Airport Companion", adic: "Compartilhados (Titular+Adic).", cond: "Qualquer gasto nos últimos 90 dias." },
@@ -189,7 +186,7 @@
     }
 
     function removeCard(id) {
-        if(confirm("Remover este cartão da sua lista?")) {
+        if(confirm("Remover este cartão?")) {
             userCards = userCards.filter(c => c !== id);
             localStorage.setItem('vip_userCards', JSON.stringify(userCards));
             render();
