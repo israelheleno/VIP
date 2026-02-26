@@ -16,7 +16,7 @@
         h1 { text-align: center; color: var(--gold); font-size: 22px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .admin-section { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px dashed #444; }
         select { background: #000; color: #fff; padding: 12px; border-radius: 8px; width: 100%; border: 1px solid var(--gold); font-size: 14px; outline: none; }
-        .card { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #222; position: relative; }
+        .card { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #222; position: relative; animation: slideIn 0.3s ease; }
         .card-content { display: flex; gap: 15px; align-items: center; }
         .card-img { width: 90px; height: 56px; object-fit: contain; border-radius: 5px; background: #000; }
         .card-info { flex: 1; }
@@ -31,7 +31,8 @@
         .stat-label { font-size: 9px; color: #666; text-transform: uppercase; }
         .btn-print { background: var(--gold); color: #000; border: none; padding: 15px; width: 100%; border-radius: 30px; font-weight: bold; margin-top: 25px; cursor: pointer; }
         .remove-icon { position: absolute; top: 10px; right: 12px; color: #444; font-size: 16px; cursor: pointer; }
-        .footer { font-size: 10px; color: #555; text-align: center; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px; }
+        .footer { font-size: 10px; color: #555; text-align: center; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px; padding-bottom: 30px; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -46,26 +47,56 @@
     <button class="btn-print" onclick="window.print()">📸 Gerar Imagem para Partilhar</button>
     <div class="footer">
         Informações atualizadas em Fevereiro de 2026.<br>
-        Consulte sempre o emissor e os apps oficiais.
+        Adicionais: "Própria" (cota individual) | "Comp." (cota dividida).<br>
+        Sempre consulte os apps oficiais (Visa Airport Companion, LK ou PP).
     </div>
 </div>
 <script>
     const db = {
+        // SEUS CARTÕES
         amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", rule: "Bradesco/Centurion", adic: "Própria", cond: "Livre" },
         aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, rule: "LoungeKey", adic: "Própria", cond: "R$ 1k/mês" },
         itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, rule: "LoungeKey", adic: "Própria", cond: "Livre" },
         xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, rule: "Dragon Pass", adic: "Comp.", cond: "R$ 3k fat." },
         c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, rule: "Dragon Pass", adic: "Comp.", cond: "Livre" },
-        brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", rule: "LK/DP/PP", adic: "Própria", cond: "Livre" },
+        sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, rule: "Dragon Pass", adic: "Comp.", cond: "90 dias" },
+        elo_nanquim: { name: "Elo Nanquim Caixa", img: "elo.png", total: 2, rule: "Priority Pass", adic: "Própria", cond: "Livre" },
+
+        // ULTRA-ELITE / PRIVATE / CONVITE
+        amex_cent_brad: { name: "Bradesco Amex Centurion", img: "amex-centurion-bradesco.png", total: "∞", rule: "LK/DP/PP", adic: "Própria", cond: "Convite" },
+        amex_cent_sant: { name: "Santander Amex Centurion", img: "amex-centurion-santander.png", total: "∞", rule: "LK/PP", adic: "Própria", cond: "Convite" },
         bradesco_aet: { name: "Bradesco Aeternum Infinite", img: "bradesco-aeternum.png", total: "∞", rule: "LK/DP", adic: "Própria", cond: "Private" },
+        bradesco_princ: { name: "Bradesco Principal Infinite", img: "bradesco-principal.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
         btg_ultra: { name: "BTG Ultrablue Black", img: "btg-ultrablue.png", total: "∞", rule: "LoungeKey", adic: "Própria", cond: "Livre" },
+        btg_black: { name: "BTG Pactual Black", img: "btg-black.png", total: 4, rule: "LoungeKey", adic: "Própria", cond: "R$ 2k fat." },
         c6_graph: { name: "C6 Graphene Black", img: "c6-graphene.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
         itau_priv_inf: { name: "Itaú Private Infinite", img: "itau-priv-inf.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
+        itau_priv_priv: { name: "Itaú Infinite Privilege", img: "itau-privilege.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
+        itau_the_one: { name: "Itaú The One Personnalité", img: "itau-the-one.png", total: "∞", rule: "LoungeKey", adic: "Própria", cond: "Livre" },
+        xp_priv_inf: { name: "XP Infinite Privilege", img: "xp-privilege.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
         caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Convite" },
-        unicred_imp: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Convite" }
+        unicred_priv: { name: "Unicred Infinite Privilege", img: "unicred-privilege.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
+        unicred_imp: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Convite" },
+        bb_altus_liv: { name: "BB Altus Liv Infinite", img: "bb-altus-liv.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
+        bb_altus: { name: "BB Altus Infinite", img: "bb-altus.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
+        brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", rule: "LK/DP/PP", adic: "Própria", cond: "Livre" },
+        banescard_abs: { name: "Banescard Absoluto Infinite", img: "banescard-absoluto.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Livre" },
+        nomad_expl: { name: "Nomad Explorer Infinite", img: "nomad-explorer.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Livre" },
+        bradesco_diners: { name: "Bradesco Elo Diners Club", img: "bradesco-diners.png", total: 8, rule: "Priority Pass", adic: "Própria", cond: "Livre" },
+        porto_inf: { name: "Porto Bank Infinite", img: "porto-inf.png", total: 10, rule: "Dragon Pass", adic: "Própria", cond: "Livre" },
+        porto_black: { name: "Porto Bank Black", img: "porto-black.png", total: 10, rule: "LoungeKey", adic: "Própria", cond: "Livre" },
+        sicredi_black: { name: "Sicredi Mastercard Black", img: "sicredi-black.png", total: "∞", rule: "LoungeKey", adic: "Própria", cond: "Livre" },
+        unicred_inf: { name: "Unicred Visa Infinite", img: "unicred-inf.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Livre" },
+        azul_inf: { name: "Azul Visa Infinite", img: "azul-inf.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Livre" },
+        latam_inf: { name: "LATAM Pass Visa Infinite", img: "latam-inf.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Livre" },
+        caixa_inf: { name: "Caixa Visa Infinite", img: "caixa-inf.png", total: 2, rule: "Dragon Pass", adic: "Própria", cond: "Livre" },
+        inter_win: { name: "Inter Win (Wealth)", img: "inter-win.png", total: "∞", rule: "LoungeKey", adic: "Própria", cond: "Livre" },
+        inter_black: { name: "Inter Black (Assinante)", img: "inter-black.png", total: "∞", rule: "LoungeKey", adic: "Própria", cond: "Livre" }
     };
+
     let userCards = JSON.parse(localStorage.getItem('vip_userCards')) || [];
     let usage = JSON.parse(localStorage.getItem('vip_usage')) || {};
+
     function init() {
         const sel = document.getElementById('cardSelector');
         Object.keys(db).sort((a,b) => db[a].name.localeCompare(db[b].name)).forEach(key => {
@@ -76,6 +107,7 @@
         });
         render();
     }
+
     function addCard() {
         const id = document.getElementById('cardSelector').value;
         if (id && !userCards.includes(id)) {
@@ -85,20 +117,24 @@
         }
         document.getElementById('cardSelector').value = "";
     }
+
     function removeCard(id) {
-        if(confirm("Remover cartão?")) {
+        if(confirm("Remover este cartão da lista?")) {
             userCards = userCards.filter(c => c !== id);
             save(); render();
         }
     }
+
     function step(id, val) {
         usage[id] = Math.max(0, (usage[id] || 0) + val);
         save(); render();
     }
+
     function save() {
         localStorage.setItem('vip_userCards', JSON.stringify(userCards));
         localStorage.setItem('vip_usage', JSON.stringify(usage));
     }
+
     function render() {
         const area = document.getElementById('displayArea');
         area.innerHTML = '';
@@ -110,11 +146,12 @@
                 <div class="card">
                     <span class="remove-icon" onclick="removeCard('${id}')">✕</span>
                     <div class="card-content">
-                        <img src="${c.img}" class="card-img" onerror="this.src='https://via.placeholder.com/90x56/222/d4af37?text=CARD'">
+                        <img src="${c.img}" class="card-img" alt="card" onerror="this.src='https://via.placeholder.com/90x56/222/d4af37?text=CARD'">
                         <div class="card-info">
                             <div class="card-title">${c.name}</div>
                             <div class="card-tags">
                                 <span class="tag">${c.rule}</span>
+                                <span class="tag">Adic: ${c.adic}</span>
                                 <span class="tag">${c.cond}</span>
                             </div>
                         </div>
