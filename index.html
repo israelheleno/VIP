@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Pass Tracker</title>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="VIP Tracker">
+    <style>
+        :root { --bg: #000; --card-bg: #111; --gold: #d4af37; --text: #fff; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
+        .container { max-width: 480px; margin: auto; }
+        h1 { text-align: center; color: var(--gold); font-size: 22px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .admin-section { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px dashed #444; }
+        select { background: #000; color: #fff; padding: 12px; border-radius: 8px; width: 100%; border: 1px solid var(--gold); font-size: 14px; outline: none; }
+        .card { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #222; position: relative; }
+        .card-content { display: flex; gap: 15px; align-items: center; }
+        .card-img { width: 90px; height: 56px; object-fit: contain; border-radius: 5px; background: #000; }
+        .card-info { flex: 1; }
+        .card-title { font-weight: bold; font-size: 14px; margin-bottom: 4px; color: var(--gold); }
+        .card-tags { font-size: 10px; color: #aaa; display: flex; flex-wrap: wrap; gap: 5px; }
+        .tag { background: #222; padding: 2px 7px; border-radius: 4px; border: 0.5px solid #333; }
+        .counter-section { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #222; }
+        .usage-controls { display: flex; align-items: center; gap: 15px; }
+        button.btn-step { background: #333; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 20px; font-weight: bold; cursor: pointer; }
+        .stat { text-align: center; min-width: 50px; }
+        .stat-val { display: block; font-size: 20px; font-weight: bold; }
+        .stat-label { font-size: 9px; color: #666; text-transform: uppercase; }
+        .btn-print { background: var(--gold); color: #000; border: none; padding: 15px; width: 100%; border-radius: 30px; font-weight: bold; margin-top: 25px; cursor: pointer; }
+        .remove-icon { position: absolute; top: 10px; right: 12px; color: #444; font-size: 16px; cursor: pointer; }
+        .footer { font-size: 10px; color: #555; text-align: center; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>✈️ VIP Pass Tracker</h1>
+    <div class="admin-section">
+        <select id="cardSelector" onchange="addCard()">
+            <option value="">+ Adicionar Cartão à Lista</option>
+        </select>
+    </div>
+    <div id="displayArea"></div>
+    <button class="btn-print" onclick="window.print()">📸 Gerar Imagem para Partilhar</button>
+    <div class="footer">
+        Informações atualizadas em Fevereiro de 2026.<br>
+        Consulte sempre o emissor e os apps oficiais.
+    </div>
+</div>
+<script>
+    const db = {
+        amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", rule: "Bradesco/Centurion", adic: "Própria", cond: "Livre" },
+        aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, rule: "LoungeKey", adic: "Própria", cond: "R$ 1k/mês" },
+        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, rule: "LoungeKey", adic: "Própria", cond: "Livre" },
+        xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, rule: "Dragon Pass", adic: "Comp.", cond: "R$ 3k fat." },
+        c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, rule: "Dragon Pass", adic: "Comp.", cond: "Livre" },
+        brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", rule: "LK/DP/PP", adic: "Própria", cond: "Livre" },
+        bradesco_aet: { name: "Bradesco Aeternum Infinite", img: "bradesco-aeternum.png", total: "∞", rule: "LK/DP", adic: "Própria", cond: "Private" },
+        btg_ultra: { name: "BTG Ultrablue Black", img: "btg-ultrablue.png", total: "∞", rule: "LoungeKey", adic: "Própria", cond: "Livre" },
+        c6_graph: { name: "C6 Graphene Black", img: "c6-graphene.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
+        itau_priv_inf: { name: "Itaú Private Infinite", img: "itau-priv-inf.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Private" },
+        caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Convite" },
+        unicred_imp: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", rule: "Dragon Pass", adic: "Própria", cond: "Convite" }
+    };
+    let userCards = JSON.parse(localStorage.getItem('vip_userCards')) || [];
+    let usage = JSON.parse(localStorage.getItem('vip_usage')) || {};
+    function init() {
+        const sel = document.getElementById('cardSelector');
+        Object.keys(db).sort((a,b) => db[a].name.localeCompare(db[b].name)).forEach(key => {
+            let opt = document.createElement('option');
+            opt.value = key;
+            opt.innerText = db[key].name;
+            sel.appendChild(opt);
+        });
+        render();
+    }
+    function addCard() {
+        const id = document.getElementById('cardSelector').value;
+        if (id && !userCards.includes(id)) {
+            userCards.push(id);
+            if (usage[id] === undefined) usage[id] = 0;
+            save(); render();
+        }
+        document.getElementById('cardSelector').value = "";
+    }
+    function removeCard(id) {
+        if(confirm("Remover cartão?")) {
+            userCards = userCards.filter(c => c !== id);
+            save(); render();
+        }
+    }
+    function step(id, val) {
+        usage[id] = Math.max(0, (usage[id] || 0) + val);
+        save(); render();
+    }
+    function save() {
+        localStorage.setItem('vip_userCards', JSON.stringify(userCards));
+        localStorage.setItem('vip_usage', JSON.stringify(usage));
+    }
+    function render() {
+        const area = document.getElementById('displayArea');
+        area.innerHTML = '';
+        userCards.forEach(id => {
+            const c = db[id];
+            const used = usage[id] || 0;
+            const remains = c.total === "∞" ? "∞" : Math.max(0, c.total - used);
+            area.innerHTML += `
+                <div class="card">
+                    <span class="remove-icon" onclick="removeCard('${id}')">✕</span>
+                    <div class="card-content">
+                        <img src="${c.img}" class="card-img" onerror="this.src='https://via.placeholder.com/90x56/222/d4af37?text=CARD'">
+                        <div class="card-info">
+                            <div class="card-title">${c.name}</div>
+                            <div class="card-tags">
+                                <span class="tag">${c.rule}</span>
+                                <span class="tag">${c.cond}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="counter-section">
+                        <div class="stat"><span class="stat-val" style="color:#666">${c.total}</span><span class="stat-label">Total</span></div>
+                        <div class="usage-controls">
+                            <button class="btn-step" onclick="step('${id}', -1)">-</button>
+                            <div class="stat"><span class="stat-val">${used}</span><span class="stat-label">Usados</span></div>
+                            <button class="btn-step" onclick="step('${id}', 1)">+</button>
+                        </div>
+                        <div class="stat"><span class="stat-val" style="color:${remains == 0 && c.total !== '∞' ? '#ff4444' : '#00ff88'}">${remains}</span><span class="stat-label">Saldo</span></div>
+                    </div>
+                </div>`;
+        });
+    }
+    init();
+</script>
+</body>
+</html>
