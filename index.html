@@ -12,12 +12,17 @@
         :root { --bg: #000; --card-bg: #111; --gold: #d4af37; --text: #fff; }
         body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; line-height: 1.4; position: relative; min-height: 100vh; }
         
-        /* MARCA D'ÁGUA */
-        .watermark { position: fixed; bottom: 10px; right: 10px; font-size: 10px; color: rgba(212, 175, 55, 0.3); z-index: 999; pointer-events: none; text-transform: uppercase; letter-spacing: 1px; }
+        /* MARCA D'ÁGUA - OPACIDADE AUMENTADA */
+        .watermark { position: fixed; bottom: 15px; right: 15px; font-size: 11px; color: rgba(212, 175, 55, 0.6); z-index: 999; pointer-events: none; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 
         .container { max-width: 480px; margin: auto; position: relative; z-index: 1; }
-        h1 { text-align: center; color: var(--gold); font-size: 18px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { text-align: center; color: var(--gold); font-size: 18px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         
+        /* CONTADOR TOTAL NO TOPO */
+        .total-counter { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid var(--gold); border-radius: 15px; padding: 12px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2); }
+        .total-counter span { color: var(--gold); font-weight: bold; font-size: 20px; }
+        .total-label { font-size: 10px; text-transform: uppercase; color: #888; display: block; margin-top: 2px; }
+
         .admin-section { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #333; }
         select { background: #000; color: #fff; padding: 12px; border-radius: 8px; width: 100%; border: 1px solid var(--gold); outline: none; font-size: 16px; -webkit-appearance: none; }
         
@@ -25,8 +30,11 @@
         .card-header { display: flex; gap: 15px; align-items: center; margin-bottom: 12px; }
         .card-img-box { display: flex; flex-direction: column; gap: 8px; align-items: center; min-width: 90px; }
         .card-img { width: 90px; height: 56px; object-fit: contain; border-radius: 6px; background: #000; border: 1px solid #222; }
-        .program-badge { background: #222; color: #fff; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; border: 0.5px solid #444; text-align: center; width: 100%; box-sizing: border-box; }
         
+        /* BADGE COM BANDEIRAS */
+        .program-badge { background: #222; color: #fff; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; border: 0.5px solid #444; text-align: center; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 2px; }
+        .flags { font-size: 11px; }
+
         .card-title { font-weight: bold; font-size: 13px; color: var(--gold); flex: 1; text-transform: uppercase; letter-spacing: 0.5px; }
         .cond-box { background: #1a1505; border-left: 3px solid var(--gold); padding: 10px; border-radius: 6px; margin-bottom: 10px; }
         .cond-text { font-size: 11.5px; color: #eee; display: flex; gap: 8px; }
@@ -46,32 +54,22 @@
         
         .disclaimer { margin-top: 30px; padding: 20px; text-align: center; font-size: 11px; color: #666; border-top: 1px solid #222; line-height: 1.6; }
         .disclaimer strong { color: var(--gold); }
-        .disclaimer span { display: block; margin-top: 10px; font-style: italic; }
 
-        /* AJUSTES PARA IMPRESSÃO */
+        /* IMPRESSÃO */
         @media print {
             @page { size: A4; margin: 8mm; }
             .admin-section, .btn-print, .btn-step, .remove-icon, .usage-controls { display: none !important; }
             body { background: white !important; color: black !important; padding: 0; margin: 0; }
-            .watermark { color: rgba(0, 0, 0, 0.4) !important; bottom: 5mm; right: 5mm; display: block !important; }
-            h1 { color: black !important; font-size: 14pt; margin-bottom: 6mm; }
+            .watermark { color: rgba(0, 0, 0, 0.5) !important; bottom: 5mm; right: 5mm; display: block !important; }
+            .total-counter { border: 1px solid black; background: #f9f9f9 !important; }
+            .total-counter span { color: black !important; }
+            h1 { color: black !important; font-size: 14pt; margin-bottom: 5mm; }
             #displayArea { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; width: 100%; }
-            .card { background: #fff !important; border: 1px solid #ccc !important; border-radius: 8px; padding: 6px; margin: 0; height: 46mm; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; }
-            .card-header { margin-bottom: 4px; gap: 6px; }
-            .card-img { width: 45px; height: 28px; border: 1px solid #ddd; }
-            
-            .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 5.5pt; padding: 1px; margin-top: 2px; }
-            .card-title { color: black !important; font-size: 7.5pt !important; line-height: 1.1; }
-            .cond-box { background: #f9f9f9 !important; border-left: 2px solid black; padding: 3px; margin-bottom: 3px; }
-            .cond-text { font-size: 7pt; color: black !important; }
-            .adic-text { font-size: 6.5pt; color: #666 !important; }
-            
-            /* AJUSTE DOS VALORES DENTRO DA MOLDURA NO PRINT */
-            .counter-section { border-top: 0.5px solid #eee; padding-top: 3px; gap: 0; display: flex; justify-content: space-between; margin-top: auto; }
-            .stat { flex: 1; padding: 0 2px; }
-            .stat-val { font-size: 11pt !important; color: black !important; text-align: center; line-height: 1; }
-            .stat-label { font-size: 6pt; display: block; margin-top: 1px; color: #888; }
-            .disclaimer { border-top: 1px solid #eee; color: #999 !important; font-size: 7pt; margin-top: 5mm; padding: 10px; }
+            .card { background: #fff !important; border: 1px solid #ccc !important; border-radius: 8px; padding: 6px; margin: 0; height: 48mm; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; }
+            .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 5.5pt; padding: 1px; }
+            .card-title { color: black !important; font-size: 7.5pt !important; }
+            .stat-val { font-size: 11pt !important; color: black !important; }
+            .stat-label { font-size: 6pt; color: #666; }
         }
     </style>
 </head>
@@ -81,63 +79,79 @@
 
 <div class="container">
     <h1>✈️ VIP PASS TRACKER</h1>
+    
+    <div class="total-counter">
+        <span id="globalSaldo">0</span>
+        <div class="total-label">Saldo Total de Acessos Disponíveis</div>
+    </div>
+
     <div class="admin-section"><select id="cardSelector"><option value="">+ Adicionar Cartão à Lista</option></select></div>
     <div id="displayArea"></div>
     <button class="btn-print" id="btnPrint">📸 GERAR PRINT PARA ENVIO</button>
     
     <div class="disclaimer">
-        ⚠️ <strong>AVISO IMPORTANTE:</strong> Regras de <strong>Fevereiro de 2026</strong>. 
-        Os emissores podem alterar benefícios sem aviso. Consulte apps oficiais (VAC, LK ou PP).
+        ⚠️ <strong>AVISO:</strong> Regras de <strong>Fevereiro 2026</strong>. Emissores podem mudar benefícios. Verifique apps (VAC, LK ou PP).
     </div>
 </div>
 
 <script>
     const db = {
-        amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Bradesco & Centurion", adic: "Cota ilimitada individual.", cond: "Sem meta de gastos." },
-        aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", adic: "4 acessos por adicional.", cond: "Média R$ 1k/mês nos últimos 3 meses." },
-        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu Lounge", adic: "Adicionais com 4 acessos PP.", cond: "4 PP. Nu Lounge e MC GRU ilimitados." },
-        inter_prime: { name: "Inter Prime", img: "inter-black.png", total: 6, prog: "LoungeKey + Inter Lounge", adic: "6 acessos por adicional.", cond: "6 LK. Inter Lounges ilimitados." },
-        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", adic: "2 acessos por adicional.", cond: "Sem meta de gastos." },
-        xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Visa Airport Companion", adic: "Compartilhados (Titular+Adic).", cond: "Gasto R$ 3k na fatura anterior." },
-        c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, prog: "Dragon Pass", adic: "Compartilhados (Titular+Adic).", cond: "Sem meta de gastos." },
-        sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, prog: "Visa Airport Companion", adic: "Compartilhados (Titular+Adic).", cond: "Qualquer gasto nos últimos 90 dias." },
-        elo_nanquim: { name: "Elo Nanquim Caixa", img: "elo.png", total: 2, prog: "Priority Pass", adic: "Cota individual por adicional.", cond: "Sem meta de gastos." },
-        amex_cent_brad: { name: "Bradesco Amex Centurion", img: "amex-centurion-bradesco.png", total: "∞", prog: "LK + Dragon Pass + PP", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        amex_cent_sant: { name: "Santander Amex Centurion", img: "amex-centurion-santander.png", total: "∞", prog: "LK + PP", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        bradesco_aet: { name: "Bradesco Aeternum Infinite", img: "bradesco-aeternum.png", total: "∞", prog: "LoungeKey + Dragon Pass", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        bradesco_princ: { name: "Bradesco Principal Infinite", img: "bradesco-principal.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        btg_ultra: { name: "BTG Ultrablue Black", img: "btg-ultrablue.png", total: "∞", prog: "LoungeKey", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        c6_graph: { name: "C6 Graphene Black", img: "c6-graphene.png", total: "∞", prog: "Dragon Pass", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        itau_priv_inf: { name: "Itaú Private Infinite", img: "itau-priv-inf.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        itau_privilege: { name: "Itaú Infinite Privilege", img: "itau-privilege.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        xp_privilege: { name: "XP Infinite Privilege", img: "xp-privilege.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        unicred_priv: { name: "Unicred Infinite Privilege", img: "unicred-privilege.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        unicred_impar: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        bb_altus: { name: "BB Altus Liv Infinite", img: "bb-altus-liv.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", prog: "LK + Dragon Pass + PP", adic: "Ilimitados titular + 8 adic.", cond: "Sem meta de gastos." },
-        itau_the_one: { name: "Itaú The One", img: "itau-the-one.png", total: "∞", prog: "LoungeKey", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        porto_inf: { name: "Porto Bank Infinite", img: "porto-inf.png", total: 10, prog: "Visa Airport Companion", adic: "Cota de 10 por adicional.", cond: "Sem meta de gastos." },
-        porto_black: { name: "Porto Bank Black", img: "porto-black.png", total: 10, prog: "LoungeKey", adic: "Cota de 10 por adicional.", cond: "Sem meta de gastos." },
-        banescard_abs: { name: "Banescard Absoluto", img: "banescard-absoluto.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        nomad_expl: { name: "Nomad Explorer", img: "nomad-explorer.png", total: "∞", prog: "Visa Airport Companion", adic: "Individuais por conta ativa.", cond: "Sem meta de gastos." },
-        bradesco_diners: { name: "Bradesco Elo Diners Club", img: "bradesco-diners.png", total: 8, prog: "Priority Pass", adic: "Cota de 8 por adicional.", cond: "Sem meta de gastos." },
-        sicredi_black: { name: "Sicredi Mastercard Black", img: "sicredi-black.png", total: "∞", prog: "LoungeKey", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        unicred_inf: { name: "Unicred Visa Infinite", img: "unicred-inf.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        azul_inf: { name: "Azul Visa Infinite", img: "azul-inf.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        latam_inf: { name: "LATAM Pass Infinite", img: "latam-inf.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        caixa_inf: { name: "Caixa Visa Infinite", img: "caixa-inf.png", total: 2, prog: "Visa Airport Companion", adic: "Cota de 2 por adicional.", cond: "Sem meta de gastos." },
-        inter_win: { name: "Inter Win (Wealth)", img: "inter-win.png", total: "∞", prog: "LoungeKey", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
-        inter_black_sig: { name: "Inter Black (Assinante)", img: "inter-black.png", total: "∞", prog: "LoungeKey", adic: "Individual por cartão.", cond: "Sem meta de gastos." },
-        btg_black: { name: "BTG Pactual Black", img: "btg-black.png", total: 4, prog: "LoungeKey", adic: "Cota de 4 por adicional.", cond: "Gasto R$ 2k na fatura anterior." },
-        itau_latam_black: { name: "Itaú LATAM Pass Black", img: "itau-latam-black.png", total: "∞", prog: "Salas VIP LATAM", adic: "Ilimitado voando LATAM.", cond: "Sem meta de gastos." },
-        safra_visa_inf: { name: "Safra Visa Infinite", img: "safra-infinite.png", total: "∞", prog: "Visa Airport Companion", adic: "Ilimitados (consulte segmentação).", cond: "Sem meta de gastos." },
-        brb_black: { name: "BRB Mastercard Black", img: "brb-black.png", total: 4, prog: "LoungeKey", adic: "Cota de 4 por adicional.", cond: "Sem meta de gastos." },
-        uniprime_inf: { name: "Uniprime Visa Infinite", img: "uniprime-infinite.png", total: "∞", prog: "LoungeKey", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." }
+        amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Bradesco & Centurion", flags: "🇧🇷 🇺🇸 🇦🇷 🇲🇽 🇯🇵", adic: "Cota ilimitada individual.", cond: "Sem meta de gastos." },
+        aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "4 acessos por adicional.", cond: "Média R$ 1k/mês nos últimos 3 meses." },
+        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu", flags: "🇧🇷 🌎", adic: "4 acessos PP por adicional.", cond: "4 PP. Nu Lounge e MC GRU ilimitados." },
+        inter_prime: { name: "Inter Prime", img: "inter-black.png", total: 6, prog: "LK + Inter Lounge", flags: "🇧🇷 🌎", adic: "6 acessos por adicional.", cond: "6 LK. Inter Lounges ilimitados." },
+        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "2 acessos por adicional.", cond: "Sem meta de gastos." },
+        xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Gasto R$ 3k na fatura anterior." },
+        c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Sem meta de gastos." },
+        sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Gasto nos últimos 90 dias." },
+        elo_nanquim: { name: "Elo Nanquim Caixa", img: "elo.png", total: 2, prog: "Priority Pass", flags: "🇧🇷 🌎", adic: "Cota individual por adicional.", cond: "Sem meta de gastos." },
+        amex_cent_brad: { name: "Bradesco Amex Centurion", img: "amex-centurion-bradesco.png", total: "∞", prog: "LK + DP + PP", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        amex_cent_sant: { name: "Santander Amex Centurion", img: "amex-centurion-santander.png", total: "∞", prog: "LK + Priority Pass", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        bradesco_aet: { name: "Bradesco Aeternum Infinite", img: "bradesco-aeternum.png", total: "∞", prog: "LK + Dragon Pass", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        bradesco_princ: { name: "Bradesco Principal Infinite", img: "bradesco-principal.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        btg_ultra: { name: "BTG Ultrablue Black", img: "btg-ultrablue.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        c6_graph: { name: "C6 Graphene Black", img: "c6-graphene.png", total: "∞", prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        itau_priv_inf: { name: "Itaú Private Infinite", img: "itau-priv-inf.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        itau_privilege: { name: "Itaú Infinite Privilege", img: "itau-privilege.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        xp_privilege: { name: "XP Infinite Privilege", img: "xp-privilege.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        unicred_priv: { name: "Unicred Infinite Privilege", img: "unicred-privilege.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        unicred_impar: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        bb_altus: { name: "BB Altus Liv Infinite", img: "bb-altus-liv.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", prog: "LK + DP + PP", flags: "🇧🇷 🌎", adic: "Ilimitados titular + 8 adic.", cond: "Sem meta de gastos." },
+        itau_the_one: { name: "Itaú The One", img: "itau-the-one.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        porto_inf: { name: "Porto Bank Infinite", img: "porto-inf.png", total: 10, prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "10 por adicional.", cond: "Sem meta de gastos." },
+        porto_black: { name: "Porto Bank Black", img: "porto-black.png", total: 10, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "10 por adicional.", cond: "Sem meta de gastos." },
+        banescard_abs: { name: "Banescard Absoluto", img: "banescard-absoluto.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        nomad_expl: { name: "Nomad Explorer", img: "nomad-explorer.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Individuais por conta ativa.", cond: "Sem meta de gastos." },
+        bradesco_diners: { name: "Bradesco Elo Diners Club", img: "bradesco-diners.png", total: 8, prog: "Priority Pass", flags: "🇧🇷 🌎", adic: "8 por adicional.", cond: "Sem meta de gastos." },
+        sicredi_black: { name: "Sicredi Mastercard Black", img: "sicredi-black.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        unicred_inf: { name: "Unicred Visa Infinite", img: "unicred-inf.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        azul_inf: { name: "Azul Visa Infinite", img: "azul-inf.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        latam_inf: { name: "LATAM Pass Infinite", img: "latam-inf.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        caixa_inf: { name: "Caixa Visa Infinite", img: "caixa-inf.png", total: 2, prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "2 por adicional.", cond: "Sem meta de gastos." },
+        inter_win: { name: "Inter Win (Wealth)", img: "inter-win.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
+        inter_black_sig: { name: "Inter Black (Assinante)", img: "inter-black.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Individual por cartão.", cond: "Sem meta de gastos." },
+        btg_black: { name: "BTG Pactual Black", img: "btg-black.png", total: 4, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "4 por adicional.", cond: "Gasto R$ 2k na fatura anterior." },
+        itau_latam_black: { name: "Itaú LATAM Pass Black", img: "itau-latam-black.png", total: "∞", prog: "Salas VIP LATAM", flags: "🇧🇷 🇨🇱 🇦🇷 🇨🇴", adic: "Ilimitado voando LATAM.", cond: "Sem meta de gastos." },
+        safra_visa_inf: { name: "Safra Visa Infinite", img: "safra-infinite.png", total: "∞", prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Ilimitados (consulte segmentação).", cond: "Sem meta de gastos." },
+        brb_black: { name: "BRB Mastercard Black", img: "brb-black.png", total: 4, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "4 por adicional.", cond: "Sem meta de gastos." },
+        uniprime_inf: { name: "Uniprime Visa Infinite", img: "uniprime-infinite.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." }
     };
 
     let userCards = JSON.parse(localStorage.getItem('vip_userCards')) || [];
     let usage = JSON.parse(localStorage.getItem('vip_usage')) || {};
+
+    function updateGlobal() {
+        let globalTotal = 0;
+        let hasInfinite = false;
+        userCards.forEach(id => {
+            const c = db[id];
+            if (c.total === "∞") { hasInfinite = true; }
+            else { globalTotal += Math.max(0, c.total - (usage[id] || 0)); }
+        });
+        document.getElementById('globalSaldo').innerText = hasInfinite ? "∞ + " + globalTotal : globalTotal;
+    }
 
     function render() {
         const area = document.getElementById('displayArea');
@@ -153,7 +167,10 @@
                     <div class="card-header">
                         <div class="card-img-box">
                             <img src="${c.img}" class="card-img" onerror="this.src='https://via.placeholder.com/90x56/111/d4af37?text=CARD'">
-                            <div class="program-badge">${c.prog}</div>
+                            <div class="program-badge">
+                                <span>${c.prog}</span>
+                                <span class="flags">${c.flags}</span>
+                            </div>
                         </div>
                         <div class="card-title">${c.name}</div>
                     </div>
@@ -170,6 +187,7 @@
                     </div>
                 </div>`;
         });
+        updateGlobal();
     }
 
     function addCard() {
