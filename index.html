@@ -12,108 +12,86 @@
     <meta name="apple-mobile-web-app-title" content="VIP Tracker">
 
     <style>
-        :root { --bg: #000; --card-bg: #111; --gold: #d4af37; --text: #fff; --gray: #888; }
-        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; line-height: 1.4; }
+        :root { --bg: #000; --card-bg: #111; --gold: #d4af37; --text: #fff; --sub: #888; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
         .container { max-width: 480px; margin: auto; }
-        h1 { text-align: center; color: var(--gold); font-size: 20px; margin-bottom: 20px; letter-spacing: 1px; }
+        h1 { text-align: center; color: var(--gold); font-size: 18px; margin-bottom: 20px; text-transform: uppercase; }
         
-        .admin-section { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px dashed #333; }
-        select { background: #000; color: #fff; padding: 12px; border-radius: 8px; width: 100%; border: 1px solid var(--gold); font-size: 14px; outline: none; }
+        .admin-section { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #333; }
+        select { background: #000; color: #fff; padding: 12px; border-radius: 8px; width: 100%; border: 1px solid var(--gold); }
 
-        .card { background: var(--card-bg); border-radius: 18px; padding: 18px; margin-bottom: 18px; border: 1px solid #222; position: relative; }
-        .card-header { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 15px; }
-        .card-img { width: 100px; height: 63px; object-fit: contain; border-radius: 6px; background: #050505; border: 1px solid #222; }
-        .card-title { font-weight: bold; font-size: 16px; color: var(--gold); margin-top: 5px; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 18px; margin-bottom: 20px; border: 1px solid #222; position: relative; }
+        .card-header { display: flex; gap: 15px; align-items: center; margin-bottom: 12px; }
+        .card-img-box { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+        .card-img { width: 90px; height: 56px; object-fit: contain; border-radius: 6px; background: #000; border: 1px solid #222; }
         
-        /* Bloco de Regras Detalhadas */
-        .rules-block { background: #0a0a0a; border-radius: 10px; padding: 12px; margin-bottom: 15px; border: 1px solid #1a1a1a; }
-        .rule-item { display: flex; align-items: flex-start; gap: 8px; font-size: 11.5px; margin-bottom: 6px; color: #ccc; }
-        .rule-item:last-child { margin-bottom: 0; }
-        .rule-icon { color: var(--gold); font-size: 13px; width: 18px; text-align: center; }
+        /* Selo do Programa */
+        .program-badge { background: #222; color: var(--gold); font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; border: 0.5px solid var(--gold); }
+
+        .card-title { font-weight: bold; font-size: 15px; color: #fff; flex: 1; }
+        
+        /* Caixas de Texto Separadas */
+        .cond-box { background: #1a1505; border-left: 3px solid var(--gold); padding: 10px; border-radius: 6px; margin-bottom: 10px; }
+        .cond-text { font-size: 12px; color: #eee; display: flex; gap: 8px; }
+        
+        .adic-box { padding: 0 10px; margin-bottom: 15px; }
+        .adic-text { font-size: 11px; color: #888; display: flex; gap: 8px; }
 
         /* Contadores */
         .counter-section { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #222; }
         .usage-controls { display: flex; align-items: center; gap: 15px; }
-        button.btn-step { background: #222; color: white; border: 1px solid #333; width: 38px; height: 38px; border-radius: 50%; font-size: 22px; cursor: pointer; }
+        button.btn-step { background: #333; color: white; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 22px; cursor: pointer; }
         button.btn-step:active { background: var(--gold); color: black; }
         
-        .stat { text-align: center; min-width: 55px; }
+        .stat { text-align: center; }
         .stat-val { display: block; font-size: 22px; font-weight: bold; }
-        .stat-label { font-size: 9px; color: #555; text-transform: uppercase; margin-top: 2px; }
+        .stat-label { font-size: 9px; color: #555; text-transform: uppercase; }
 
-        .btn-print { background: var(--gold); color: #000; border: none; padding: 16px; width: 100%; border-radius: 35px; font-weight: bold; margin-top: 25px; font-size: 14px; }
-        .remove-icon { position: absolute; top: 12px; right: 12px; color: #333; font-size: 16px; cursor: pointer; }
-        .footer { font-size: 10px; color: #444; text-align: center; margin-top: 40px; border-top: 1px solid #1a1a1a; padding: 25px 0 40px; }
+        .btn-print { background: var(--gold); color: #000; border: none; padding: 16px; width: 100%; border-radius: 35px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        .remove-icon { position: absolute; top: 12px; right: 15px; color: #333; font-size: 16px; }
 
         @media print {
             .admin-section, .btn-print, .btn-step, .remove-icon { display: none !important; }
             body { background: white !important; color: black !important; }
-            .card { border: 1px solid #eee; background: #fff !important; }
-            .rules-block { background: #f9f9f9 !important; border: 1px solid #eee !important; }
-            .stat-val { color: black !important; }
+            .card { border: 1px solid #ddd; }
+            .cond-box { background: #f9f9f9 !important; border-left: 3px solid black; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>✈️ VIP PASS TRACKER</h1>
+    <h1>✈️ VIP Pass Tracker</h1>
 
     <div class="admin-section">
         <select id="cardSelector" onchange="addCard()">
-            <option value="">+ Adicionar Cartão à Lista</option>
+            <option value="">+ Adicionar Cartão...</option>
         </select>
     </div>
 
     <div id="displayArea"></div>
 
-    <button class="btn-print" onclick="window.print()">📸 GERAR IMAGEM PARA ENVIO</button>
+    <button class="btn-print" onclick="window.print()">📸 GERAR PRINT PARA ENVIO</button>
 
-    <div class="footer">
-        Base de Regras: Fevereiro de 2026.<br>
-        Este app é uma ferramenta de auxílio pessoal.<br>
-        Sempre confirme no app oficial do cartão antes de viajar.
+    <div class="footer" style="text-align: center; font-size: 10px; color: #444; margin: 30px 0;">
+        Fevereiro 2026 | Informações de caráter informativo.
     </div>
 </div>
 
 <script>
     const db = {
-        // --- SEUS ---
-        amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", rule: "Redes Bradesco e Centurion Lounges", adic: "Cada cartão adicional possui sua própria cota ilimitada.", cond: "Sem meta de gastos." },
-        aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, rule: "Acessos via LoungeKey", adic: "Cada cartão adicional possui sua própria cota de 4 acessos.", cond: "Manter média de gastos de R$ 1.000 nos últimos 3 meses." },
-        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, rule: "Acessos via LoungeKey", adic: "Cada cartão adicional possui sua própria cota de 2 acessos.", cond: "Sem meta de gastos." },
-        xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, rule: "Acessos via Dragon Pass (VAC)", adic: "Acessos compartilhados entre titular e cartões adicionais.", cond: "Atingir gasto mínimo de R$ 3.000 na fatura fechada anterior." },
-        c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, rule: "Acessos via Dragon Pass", adic: "Acessos compartilhados entre titular e cartões adicionais.", cond: "Sem meta de gastos." },
-        sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, rule: "Acessos via Dragon Pass (VAC)", adic: "Acessos compartilhados entre titular e cartões adicionais.", cond: "Realizar qualquer gasto no cartão nos últimos 90 dias." },
-        elo_nanquim: { name: "Elo Nanquim Caixa", img: "elo.png", total: 2, rule: "Acessos via Priority Pass", adic: "Cada adicional possui sua própria cota.", cond: "Sem meta de gastos (benefício fixo)." },
-
-        // --- ULTRA ELITE ---
-        amex_cent_brad: { name: "Bradesco Amex Centurion", img: "amex-centurion-bradesco.png", total: "∞", rule: "Acessos LoungeKey + Dragon Pass + Priority Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        amex_cent_sant: { name: "Santander Amex Centurion", img: "amex-centurion-santander.png", total: "∞", rule: "Acessos LoungeKey + Priority Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        bradesco_aet: { name: "Bradesco Aeternum Infinite", img: "bradesco-aeternum.png", total: "∞", rule: "Acessos LoungeKey + Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        bradesco_princ: { name: "Bradesco Principal Infinite", img: "bradesco-principal.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        btg_ultra: { name: "BTG Ultrablue Black", img: "btg-ultrablue.png", total: "∞", rule: "Acessos via LoungeKey", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        c6_graph: { name: "C6 Graphene Black", img: "c6-graphene.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        itau_priv_inf: { name: "Itaú Private Infinite", img: "itau-priv-inf.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        itau_priv_priv: { name: "Itaú Infinite Privilege", img: "itau-privilege.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        xp_priv_inf: { name: "XP Infinite Privilege", img: "xp-privilege.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        unicred_priv: { name: "Unicred Infinite Privilege", img: "unicred-privilege.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        unicred_imp: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        bb_altus: { name: "BB Altus Liv Infinite", img: "bb-altus-liv.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", rule: "Acessos LK + DP + PP", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        banescard_abs: { name: "Banescard Absoluto", img: "banescard-absoluto.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        nomad_expl: { name: "Nomad Explorer", img: "nomad-explorer.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos individuais por conta ativa.", cond: "Sem meta de gastos." },
-        itau_one: { name: "Itaú The One", img: "itau-the-one.png", total: "∞", rule: "Acessos via LoungeKey", adic: "Acessos individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        porto_inf: { name: "Porto Bank Infinite", img: "porto-inf.png", total: 10, rule: "Acessos via Dragon Pass", adic: "Cada cartão adicional possui sua própria cota de 10 acessos.", cond: "Sem meta de gastos." },
-        porto_black: { name: "Porto Bank Black", img: "porto-black.png", total: 10, rule: "Acessos via LoungeKey", adic: "Cada cartão adicional possui sua própria cota de 10 acessos.", cond: "Sem meta de gastos." },
-        sicredi_black: { name: "Sicredi Black", img: "sicredi-black.png", total: "∞", rule: "Acessos via LoungeKey", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        unicred_inf: { name: "Unicred Infinite", img: "unicred-inf.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        azul_inf: { name: "Azul Infinite", img: "azul-inf.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        latam_inf: { name: "LATAM Pass Infinite", img: "latam-inf.png", total: "∞", rule: "Acessos via Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        caixa_inf: { name: "Caixa Infinite", img: "caixa-inf.png", total: 2, rule: "Acessos via Dragon Pass", adic: "Acessos individuais por cartão.", cond: "Sem meta de gastos." },
-        inter_win: { name: "Inter Win (Wealth)", img: "inter-win.png", total: "∞", rule: "Acessos via LoungeKey", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
-        inter_black: { name: "Inter Black", img: "inter-black.png", total: "∞", rule: "Acessos via LoungeKey", adic: "Acessos individuais por cartão.", cond: "Sem meta de gastos." }
+        amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Bradesco & Centurion", adic: "Cada cartão adicional possui sua própria cota ilimitada.", cond: "Sem meta de gastos." },
+        aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", adic: "Cada cartão adicional possui sua própria cota de 4 acessos.", cond: "Manter média de gastos de R$ 1.000 nos últimos 3 meses." },
+        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", adic: "Cada adicional possui sua própria cota de 2 acessos.", cond: "Sem meta de gastos." },
+        xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Visa Airport Companion", adic: "Acessos compartilhados entre titular e cartões adicionais.", cond: "Atingir gasto mínimo de R$ 3.000 na fatura fechada anterior." },
+        c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, prog: "Dragon Pass", adic: "Acessos compartilhados entre titular e adicionais.", cond: "Sem meta de gastos." },
+        sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, prog: "Visa Airport Companion", adic: "Acessos compartilhados entre titular e adicionais.", cond: "Realizar qualquer gasto no cartão nos últimos 90 dias." },
+        brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", prog: "LK + Dragon Pass + PP", adic: "Acessos ilimitados para titular e até 8 adicionais.", cond: "Sem meta de gastos." },
+        amex_cent_brad: { name: "Bradesco Amex Centurion", img: "amex-centurion-bradesco.png", total: "∞", prog: "LK + Dragon Pass + PP", adic: "Acessos ilimitados e individuais para todos os cartões.", cond: "Sem meta de gastos." },
+        porto_inf: { name: "Porto Bank Infinite", img: "porto-inf.png", total: 10, prog: "Visa Airport Companion", adic: "Cada adicional possui sua própria cota de 10 acessos.", cond: "Sem meta de gastos." },
+        itau_the_one: { name: "Itaú The One", img: "itau-the-one.png", total: "∞", prog: "LoungeKey", adic: "Acessos individuais para titular e adicionais.", cond: "Sem meta de gastos." },
+        bradesco_aet: { name: "Bradesco Aeternum", img: "bradesco-aeternum.png", total: "∞", prog: "LoungeKey + Dragon Pass", adic: "Acessos ilimitados e individuais para titular e adicionais.", cond: "Sem meta de gastos." },
+        caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", prog: "Visa Airport Companion", adic: "Acessos ilimitados e individuais por cartão.", cond: "Sem meta de gastos." }
     };
 
     let userCards = JSON.parse(localStorage.getItem('vip_userCards')) || [];
@@ -140,7 +118,7 @@
     }
 
     function removeCard(id) {
-        if(confirm("Remover cartão da sua lista?")) {
+        if(confirm("Remover cartão?")) {
             userCards = userCards.filter(c => c !== id);
             save(); render();
         }
@@ -167,18 +145,29 @@
                 <div class="card">
                     <span class="remove-icon" onclick="removeCard('${id}')">✕</span>
                     <div class="card-header">
-                        <img src="${c.img}" class="card-img" onerror="this.src='https://via.placeholder.com/100x63/111/d4af37?text=CARD'">
+                        <div class="card-img-box">
+                            <img src="${c.img}" class="card-img" onerror="this.src='https://via.placeholder.com/90x56/111/d4af37?text=CARD'">
+                            <div class="program-badge">${c.prog}</div>
+                        </div>
                         <div class="card-title">${c.name}</div>
                     </div>
                     
-                    <div class="rules-block">
-                        <div class="rule-item"><span class="rule-icon">🌐</span><span>${c.rule}</span></div>
-                        <div class="rule-item"><span class="rule-icon">👥</span><span><strong>Adicionais:</strong> ${c.adic}</span></div>
-                        <div class="rule-item"><span class="rule-icon">💰</span><span><strong>Condição:</strong> ${c.cond}</span></div>
+                    <div class="cond-box">
+                        <div class="cond-text">
+                            <span>💰</span>
+                            <span><strong>Condição de Uso:</strong> ${c.cond}</span>
+                        </div>
+                    </div>
+
+                    <div class="adic-box">
+                        <div class="adic-text">
+                            <span>👥</span>
+                            <span><strong>Adicionais:</strong> ${c.adic}</span>
+                        </div>
                     </div>
 
                     <div class="counter-section">
-                        <div class="stat"><span class="stat-val" style="color:#555">${c.total}</span><span class="stat-label">Total</span></div>
+                        <div class="stat"><span class="stat-val" style="color:#444">${c.total}</span><span class="stat-label">Total</span></div>
                         <div class="usage-controls">
                             <button class="btn-step" onclick="step('${id}', -1)">-</button>
                             <div class="stat"><span class="stat-val">${used}</span><span class="stat-label">Usados</span></div>
