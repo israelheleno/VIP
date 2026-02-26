@@ -12,13 +12,11 @@
         :root { --bg: #000; --card-bg: #111; --gold: #d4af37; --text: #fff; }
         body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; line-height: 1.4; position: relative; min-height: 100vh; }
         
-        /* MARCA D'ÁGUA - VISIBILIDADE AUMENTADA */
         .watermark { position: fixed; bottom: 15px; right: 15px; font-size: 11px; color: rgba(212, 175, 55, 0.6); z-index: 999; pointer-events: none; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 
         .container { max-width: 480px; margin: auto; position: relative; z-index: 1; }
         h1 { text-align: center; color: var(--gold); font-size: 18px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* CONTADOR TOTAL NO TOPO */
         .total-counter { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid var(--gold); border-radius: 15px; padding: 12px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2); }
         .total-counter span { color: var(--gold); font-weight: bold; font-size: 20px; }
         .total-label { font-size: 10px; text-transform: uppercase; color: #888; display: block; margin-top: 2px; }
@@ -31,7 +29,6 @@
         .card-img-box { display: flex; flex-direction: column; gap: 8px; align-items: center; min-width: 90px; }
         .card-img { width: 90px; height: 56px; object-fit: contain; border-radius: 6px; background: #000; border: 1px solid #222; }
         
-        /* BADGE COM BANDEIRAS */
         .program-badge { background: #222; color: #fff; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; border: 0.5px solid #444; text-align: center; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 2px; }
         .flags { font-size: 11px; }
 
@@ -55,7 +52,6 @@
         .disclaimer { margin-top: 30px; padding: 20px; text-align: center; font-size: 11px; color: #666; border-top: 1px solid #222; line-height: 1.6; }
         .disclaimer strong { color: var(--gold); }
 
-        /* IMPRESSÃO CORRIGIDA */
         @media print {
             @page { size: A4; margin: 8mm; }
             .admin-section, .btn-print, .btn-step, .remove-icon, .usage-controls { display: none !important; }
@@ -66,10 +62,7 @@
             h1 { color: black !important; font-size: 14pt; margin-bottom: 5mm; }
             #displayArea { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; width: 100%; }
             .card { background: #fff !important; border: 1px solid #ccc !important; border-radius: 8px; padding: 6px; margin: 0; height: 50mm; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; }
-            
-            /* FUNDO BRANCO NO PRINT PARA O BADGE */
             .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 5.5pt; padding: 1px; }
-            
             .card-title { color: black !important; font-size: 7.5pt !important; }
             .stat-val { font-size: 11pt !important; color: black !important; }
             .stat-label { font-size: 6pt; color: #666; }
@@ -93,10 +86,9 @@
     <button class="btn-print" id="btnPrint">📸 GERAR PRINT PARA ENVIO</button>
     
     <div class="disclaimer">
-        ⚠️ <strong>AVISO IMPORTANTE:</strong> As informações de benefícios, regras de acesso e metas de gastos exibidas neste rastreador são baseadas nas diretrizes vigentes em <strong>Fevereiro de 2026</strong>. 
-        <br><br>
-        Os bancos emissores e as bandeiras podem alterar essas regras a qualquer momento sem aviso prévio. 
-        <span>Consulte sempre o extrato de acessos nos apps oficiais antes de viajar.</span>
+        ⚠️ <strong>AVISO IMPORTANTE:</strong> Regras baseadas em <strong>Fevereiro de 2026</strong>. 
+        Os emissores podem alterar benefícios sem aviso. 
+        <span>Consulte sempre o extrato nos apps oficiais antes de viajar.</span>
     </div>
 </div>
 
@@ -105,11 +97,11 @@
         amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Bradesco & Centurion", flags: "🇧🇷 🇺🇸 🇦🇷 🇲🇽 🇯🇵", adic: "Cota ilimitada individual.", cond: "Sem meta de gastos." },
         aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "4 acessos por adicional.", cond: "Média R$ 1k/mês nos últimos 3 meses." },
         nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu", flags: "🇧🇷 🌎", adic: "4 acessos PP por adicional.", cond: "4 PP. Nu Lounge e MC GRU ilimitados." },
-        genial_black: { name: "Genial Mastercard Black", img: "genial-black.png", total: 8, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota de 8 acessos individual por cartão.", cond: "Inv. R$ 200k OU 3 faturas >= 6k + última >= 20k." },
+        genial_black: { name: "Genial Mastercard Black", img: "genial-black.png", total: 8, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "8 acessos individuais por adicional.", cond: "Inv. R$ 200k OU 3 faturas >= 6k + última >= 20k." },
         inter_prime: { name: "Inter Prime", img: "inter-black.png", total: 6, prog: "LK + Inter Lounge", flags: "🇧🇷 🌎", adic: "6 acessos por adicional.", cond: "6 LK. Inter Lounges ilimitados." },
-        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "2 acessos por adicional.", cond: "Sem meta de gastos." },
-        xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Gasto R$ 3k na fatura anterior." },
-        c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Sem meta de gastos." },
+        itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "2 acessos por adicional.", cond: "Ilimitado Salas Itaú (GRU). 2 LK anuais." },
+        xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Obrigatório gasto R$ 3k na fatura anterior." },
+        c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Agora via Dragon Pass (LoungeKey encerrado)." },
         sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, prog: "Visa Airport Comp.", flags: "🇧🇷 🌎", adic: "Compartilhados (Titular+Adic).", cond: "Gasto nos últimos 90 dias." },
         elo_nanquim: { name: "Elo Nanquim Caixa", img: "elo.png", total: 2, prog: "Priority Pass", flags: "🇧🇷 🌎", adic: "Cota individual por adicional.", cond: "Sem meta de gastos." },
         amex_cent_brad: { name: "Bradesco Amex Centurion", img: "amex-centurion-bradesco.png", total: "∞", prog: "LK + DP + PP", flags: "🇧🇷 🌎", adic: "Ilimitados e individuais.", cond: "Sem meta de gastos." },
