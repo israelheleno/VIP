@@ -33,7 +33,7 @@
         .adic-box { padding: 0 10px; margin-bottom: 15px; }
         .adic-text { font-size: 11px; color: #888; display: flex; gap: 8px; }
         
-        .counter-section { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #222; gap: 10px; }
+        .counter-section { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #222; gap: 5px; }
         .usage-controls { display: flex; align-items: center; gap: 10px; }
         button.btn-step { background: #333; color: white; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 20px; cursor: pointer; flex-shrink: 0; }
         
@@ -54,16 +54,24 @@
             body { background: white !important; color: black !important; padding: 0; margin: 0; }
             .watermark { color: rgba(0, 0, 0, 0.2) !important; bottom: 5mm; right: 5mm; display: block !important; }
             h1 { color: black !important; font-size: 16pt; margin-bottom: 8mm; }
-            #displayArea { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
-            .card { background: #fff !important; border: 1px solid #ddd !important; border-radius: 10px; padding: 8px; margin: 0; height: 50mm; overflow: hidden; }
+            #displayArea { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; width: 100%; }
+            .card { background: #fff !important; border: 1px solid #ddd !important; border-radius: 10px; padding: 8px; margin: 0; height: 48mm; overflow: hidden; box-sizing: border-box; }
             .card-header { margin-bottom: 5px; }
             .card-img { width: 50px; height: 32px; border: 1px solid #eee; }
-            .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 7pt; }
-            .card-title { color: black !important; font-size: 8.5pt !important; }
+            
+            /* FONTE DO PROGRAMA REDUZIDA NO PRINT */
+            .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 6pt; padding: 2px; }
+            
+            .card-title { color: black !important; font-size: 8pt !important; }
             .cond-box { background: #f5f5f5 !important; border-left: 2px solid black; padding: 4px; }
             .cond-text { font-size: 7.5pt; color: black !important; }
             .adic-text { font-size: 7pt; color: #666 !important; }
-            .stat-val { font-size: 12pt !important; color: black !important; }
+            
+            /* AJUSTE DOS VALORES DENTRO DA MOLDURA NO PRINT */
+            .counter-section { border-top: 1px solid #eee; padding-top: 4px; gap: 2px; display: flex; justify-content: space-around; width: 100%; }
+            .stat { flex: 1; }
+            .stat-val { font-size: 12pt !important; color: black !important; width: 100%; text-align: center; }
+            .stat-label { font-size: 6.5pt; display: block; }
             .disclaimer { border-top: 1px solid #eee; color: #999 !important; font-size: 8pt; margin-top: 10mm; }
         }
     </style>
@@ -77,6 +85,7 @@
     <div class="admin-section"><select id="cardSelector"><option value="">+ Adicionar Cartão à Lista</option></select></div>
     <div id="displayArea"></div>
     <button class="btn-print" id="btnPrint">📸 GERAR PRINT PARA ENVIO</button>
+    
     <div class="disclaimer">
         ⚠️ <strong>AVISO IMPORTANTE:</strong> As informações de benefícios, regras de acesso e metas de gastos exibidas neste rastreador são baseadas nas diretrizes vigentes em <strong>Fevereiro de 2026</strong>. 
         <br><br>
@@ -89,7 +98,7 @@
     const db = {
         amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Bradesco & Centurion", adic: "Cota ilimitada individual.", cond: "Sem meta de gastos." },
         aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", adic: "Cota de 4 acessos por adicional.", cond: "Média R$ 1k/mês nos últimos 3 meses." },
-        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu Lounge", adic: "Cota de 4 acessos PP por adicional.", cond: "4 acessos PP. Nu Lounge e MC GRU ilimitados." },
+        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu Lounge", adic: "Adicionais com cota de 4 acessos PP.", cond: "4 acessos PP. Nu Lounge e MC GRU ilimitados." },
         inter_prime: { name: "Inter Prime", img: "inter-black.png", total: 6, prog: "LoungeKey + Inter Lounge", adic: "Cota de 6 acessos individuais por adicional.", cond: "6 acessos LK. Inter Lounges ilimitados." },
         itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "LoungeKey", adic: "Cota de 2 acessos por adicional.", cond: "Sem meta de gastos." },
         xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Visa Airport Companion", adic: "Compartilhados (Titular+Adic).", cond: "Gasto R$ 3k na fatura anterior." },
@@ -180,7 +189,7 @@
     }
 
     function removeCard(id) {
-        if(confirm("Remover este cartão?")) {
+        if(confirm("Remover este cartão da sua lista?")) {
             userCards = userCards.filter(c => c !== id);
             localStorage.setItem('vip_userCards', JSON.stringify(userCards));
             render();
