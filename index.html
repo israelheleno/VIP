@@ -36,7 +36,6 @@
         .cond-box { background: #1a1505; border-left: 3px solid var(--gold); padding: 10px; border-radius: 6px; margin-bottom: 10px; }
         .cond-text { font-size: 11.5px; color: #eee; display: flex; gap: 8px; }
         
-        /* NOVA ESTRUTURA PARA ADICIONAIS E CONVIDADOS */
         .adic-box { padding: 0 10px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px; }
         .adic-text, .conv-text { font-size: 11px; color: #888; display: flex; gap: 8px; }
         
@@ -63,10 +62,7 @@
             .total-counter span { color: black !important; }
             h1 { color: black !important; font-size: 14pt; margin-bottom: 5mm; }
             #displayArea { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; width: 100%; }
-            
-            /* AUMENTADO PARA 54mm PARA CABER A LINHA DE CONVIDADOS */
             .card { background: #fff !important; border: 1px solid #ccc !important; border-radius: 8px; padding: 6px; margin: 0; height: 54mm; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; }
-            
             .program-badge { background: #fff !important; color: #000 !important; border: 1px solid #000 !important; font-size: 5pt; padding: 2px; }
             .card-title { color: black !important; font-size: 7.5pt !important; }
             .cond-box { margin-bottom: 5px; padding: 4px; }
@@ -101,20 +97,21 @@
 
 <script>
     const db = {
-        amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Salas Bradesco, Centurion & Delta", flags: "🇧🇷 🇺🇸 🇦🇷 🇲🇽 🇯🇵", adic: "Cota própria.", conv: "1 conv. (Brad) ou 2 (Centurion).", cond: "Salas Delta exclusivas voando com a companhia (mesmo dia)." },
+        amex_tpc: { name: "Amex The Platinum (Brad)", img: "amex.png", total: "∞", prog: "Salas Bradesco, Centurion & Delta", flags: "🇧🇷 🇺🇸 🇦🇷 🇲🇽 🇯🇵", adic: "Cota própria.", conv: "1 conv. (Bradesco) / 2 conv. (Centurion).", cond: "Salas Delta exclusivas voando com a companhia (mesmo dia)." },
         aa_black: { name: "Santander AAdvantage Black", img: "aa.png", total: 4, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Exige R$ 1.000 em gastos no mês para liberar acesso." },
-        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu Lounge (ilim.) + Mastercard GRU (ilim.)", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
+        nubank_uv: { name: "Nubank Ultravioleta", img: "nubank-uv.png", total: 4, prog: "Priority Pass + Nu Lounge (ilim.) + Mastercard GRU (ilim.)", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular no PP.", cond: "Sem meta de gastos." },
         genial_black: { name: "Genial Mastercard Black", img: "genial-black.png", total: 8, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Investimento de R$ 200k OU 3 faturas ≥ R$ 6k + última ≥ R$ 20k." },
-        inter_prime: { name: "Inter Prime (Black)", img: "inter-black.png", total: 6, prog: "Priority Pass + Inter Lounges (ilim.) + Mastercard GRU (ilim.)", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
+        inter_prime: { name: "Inter Prime (Black)", img: "inter-black.png", total: 6, prog: "Priority Pass + Inter Lounges (ilim.) + Mastercard GRU (ilim.)", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota no Priority Pass.", cond: "Sem meta de gastos." },
         itau_pers_black: { name: "Itaú Personnalité Black", img: "itau-black.png", total: 2, prog: "Salas Itaú (ilim.) + LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
         xp_inf: { name: "XP Visa Infinite", img: "xp.png", total: 4, prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Compartilhado com o titular.", conv: "Descontam da cota compartilhada.", cond: "Obrigatório gasto de R$ 3.000 na fatura anterior." },
         c6_carbon: { name: "C6 Carbon Black", img: "c6.png", total: 4, prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Compartilhado com o titular.", conv: "Descontam da cota compartilhada.", cond: "Sem meta de gastos." },
         sofisa_inf: { name: "Sofisa Visa Infinite", img: "sofisa.png", total: 2, prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Compartilhado com o titular.", conv: "Descontam da cota compartilhada.", cond: "Exige qualquer gasto nos últimos 90 dias." },
-        elo_nanquim: { name: "Elo Nanquim (Caixa/BB/Brad)", img: "elo.png", total: 2, prog: "Priority Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
+        elo_nanquim: { name: "Elo Nanquim (Caixa/BB)", img: "elo.png", total: 4, prog: "Priority Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Bradesco oferece apenas 2 acessos para este cartão." },
         amex_cent_brad: { name: "Bradesco Amex Centurion", img: "amex-centurion-bradesco.png", total: "∞", prog: "Priority Pass + Salas Bradesco & Amex", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 12 convidados por visita (PP).", cond: "Sem meta de gastos." },
         amex_cent_sant: { name: "Santander Amex Centurion", img: "amex-centurion-santander.png", total: "∞", prog: "Priority Pass + Salas Amex", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 8 convidados por ano (PP).", cond: "Sem meta de gastos." },
         bradesco_aet: { name: "Bradesco Aeternum Infinite", img: "bradesco-aeternum.png", total: "∞", prog: "Dragon Pass + Salas Bradesco", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 12 convidados por ano.", cond: "Sem meta de gastos." },
-        bradesco_princ: { name: "Bradesco Principal Infinite", img: "bradesco-principal.png", total: "∞", prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados pagantes.", cond: "Sem meta de gastos." },
+        bradesco_princ: { name: "Bradesco Principal Infinite", img: "bradesco-principal.png", total: 4, prog: "Dragon Pass + Salas Bradesco", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
+        bradesco_diners: { name: "Bradesco Elo Diners Club", img: "bradesco-diners.png", total: 4, prog: "Priority Pass + Salas Bradesco (ilim.)", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "1 conv. (Bradesco) / PP desconta da cota.", cond: "Sem meta de gastos." },
         btg_ultra: { name: "BTG Ultrablue Black", img: "btg-ultrablue.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 12 convidados por ano.", cond: "Sem meta de gastos." },
         c6_graph: { name: "C6 Graphene Black", img: "c6-graphene.png", total: "∞", prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados ilimitados.", cond: "Sem meta de gastos." },
         itau_priv_inf: { name: "Itaú Private Infinite", img: "itau-priv-inf.png", total: "∞", prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 20 convidados por ano.", cond: "Sem meta de gastos." },
@@ -122,7 +119,7 @@
         xp_privilege: { name: "XP Infinite Privilege", img: "xp-privilege.png", total: "∞", prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 20 convidados por ano.", cond: "Sem meta de gastos." },
         caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 10 convidados por ano.", cond: "Sem meta de gastos." },
         unicred_priv: { name: "Unicred Infinite Privilege", img: "unicred-privilege.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 8 convidados por ano.", cond: "Sem meta de gastos." },
-        unicred_impar: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados pagantes.", cond: "Sem meta de gastos." },
+        unicred_impar: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "1 convidado por visita.", cond: "Sem meta de gastos." },
         bb_altus: { name: "BB Altus Liv Infinite", img: "bb-altus-liv.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados ilimitados.", cond: "Sem meta de gastos." },
         brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", prog: "LoungeKey + Priority Pass + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 8 convidados por ano.", cond: "Salas BRB exigem R$ 5.000 em gastos no mês." },
         itau_the_one_pers: { name: "Itaú The One (Personnalité)", img: "itau-the-one.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 12 convidados por ano.", cond: "Sem meta de gastos." },
@@ -131,14 +128,13 @@
         porto_black: { name: "Porto Bank Black", img: "porto-black.png", total: 10, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
         banescard_abs: { name: "Banescard Absoluto", img: "banescard-absoluto.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 12 convidados por ano.", cond: "Sem meta de gastos." },
         nomad_expl: { name: "Nomad Explorer", img: "nomad-explorer.png", total: "∞", prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados pagantes (US$ 32).", cond: "Sem meta de gastos." },
-        bradesco_diners: { name: "Bradesco Elo Diners Club", img: "bradesco-diners.png", total: 8, prog: "Priority Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
         sicredi_black: { name: "Sicredi Mastercard Black", img: "sicredi-black.png", total: 12, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
         unicred_inf: { name: "Unicred Visa Infinite", img: "unicred-inf.png", total: 12, prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
         azul_inf: { name: "Azul Visa Infinite", img: "azul-inf.png", total: "∞", prog: "Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "+2 convidados por visita.", cond: "Sem meta de gastos." },
         latam_inf: { name: "LATAM Pass Infinite", img: "latam-inf.png", total: "∞", prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "+1 convidado nas Salas LATAM.", cond: "Sem meta de gastos." },
         caixa_inf: { name: "Caixa Visa Infinite", img: "caixa-inf.png", total: 2, prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
-        inter_win: { name: "Inter Win (Wealth)", img: "inter-win.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados ilimitados.", cond: "Sem meta de gastos." },
-        inter_black_sig: { name: "Inter Black (Assinante)", img: "inter-black.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados pagantes.", cond: "Sem meta de gastos." },
+        inter_win: { name: "Inter Win (Wealth)", img: "inter-win.png", total: "∞", prog: "Priority Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados ilimitados.", cond: "Sem meta de gastos." },
+        inter_black_sig: { name: "Inter Black (Assinante)", img: "inter-black.png", total: 6, prog: "Priority Pass + Inter Lounges (ilim.)", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota no Priority Pass.", cond: "Sem meta de gastos." },
         btg_black: { name: "BTG Pactual Black", img: "btg-black.png", total: 4, prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Exige gasto de R$ 2.000 na fatura anterior." },
         itau_latam_black: { name: "Itaú LATAM Pass Black", img: "itau-latam-black.png", total: "∞", prog: "Salas VIP LATAM", flags: "🇧🇷 🇨🇱 🇦🇷 🇨🇴", adic: "Cota própria.", conv: "+1 convidado (voando LATAM).", cond: "Acesso exclusivo voando com a LATAM Airlines." },
         safra_visa_inf: { name: "Safra Visa Infinite", img: "safra-infinite.png", total: "∞", prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Descontam da cota do titular.", cond: "Sem meta de gastos." },
