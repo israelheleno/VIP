@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIP Pass Tracker 2026</title>
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="apple-touch-icon.png">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
@@ -120,7 +123,7 @@
         caixa_icone: { name: "Caixa Ícone Infinite", img: "caixa-icone.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 10 convidados por ano.", cond: "Sem meta de gastos." },
         unicred_priv: { name: "Unicred Infinite Privilege", img: "unicred-privilege.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 8 convidados por ano.", cond: "Sem meta de gastos." },
         unicred_impar: { name: "Unicred Ímpar Infinite", img: "unicred-impar.png", total: "∞", prog: "Visa Airport Companion", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "1 convidado por visita.", cond: "Sem meta de gastos." },
-        bb_altus: { name: "BB Altus Liv Infinite", img: "bb-altus-liv.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 12 convidados por ano.", cond: "Sem meta de gastos." },
+        bb_altus: { name: "BB Altus Liv Infinite", img: "bb-altus-liv.png", total: "∞", prog: "LoungeKey + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Convidados ilimitados.", cond: "Sem meta de gastos." },
         brb_dux: { name: "BRB DUX Visa Infinite", img: "brb-dux.png", total: "∞", prog: "LoungeKey + Priority Pass + Dragon Pass", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 8 convidados por ano.", cond: "Salas BRB exigem R$ 5.000 em gastos no mês." },
         itau_the_one_pers: { name: "Itaú The One (Personnalité)", img: "itau-the-one.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 12 convidados por ano.", cond: "Sem meta de gastos." },
         itau_the_one_priv: { name: "Itaú The One (Private)", img: "itau-the-one.png", total: "∞", prog: "LoungeKey", flags: "🇧🇷 🌎", adic: "Cota própria.", conv: "Até 20 convidados por ano.", cond: "Sem meta de gastos." },
@@ -244,6 +247,17 @@
         document.getElementById('btnPrint').addEventListener('click', () => window.print());
         render();
     };
+
+    // REGISTRO DO SERVICE WORKER (Para o app funcionar offline e instalar no celular)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js').then(reg => {
+                console.log('Service Worker registrado com sucesso!', reg);
+            }).catch(err => {
+                console.log('Falha ao registrar Service Worker', err);
+            });
+        });
+    }
 </script>
 </body>
 </html>
